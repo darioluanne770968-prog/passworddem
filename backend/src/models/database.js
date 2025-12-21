@@ -175,7 +175,230 @@ function initDatabase() {
     CREATE INDEX IF NOT EXISTS idx_attachments_item_id ON attachments(item_id);
   `);
 
-  console.log('✅ Database initialized');
+  // ============ 高级功能表 ============
+
+  // 团队/组织表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS teams (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      owner_id INTEGER NOT NULL,
+      description TEXT,
+      settings TEXT DEFAULT '{}',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  // 团队成员表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS team_members (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      team_id INTEGER NOT NULL,
+      user_id INTEGER NOT NULL,
+      role TEXT DEFAULT 'member',
+      invited_by INTEGER,
+      joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      UNIQUE(team_id, user_id)
+    )
+  `);
+
+  // 共享保险箱表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS shared_vaults (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      team_id INTEGER NOT NULL,
+      name TEXT NOT NULL,
+      description TEXT,
+      created_by INTEGER NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE,
+      FOREIGN KEY (created_by) REFERENCES users(id)
+    )
+  `);
+
+  // 共享保险箱条目表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS shared_vault_items (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      vault_id INTEGER NOT NULL,
+      encrypted_data TEXT NOT NULL,
+      iv TEXT NOT NULL,
+      category TEXT DEFAULT 'login',
+      created_by INTEGER NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (vault_id) REFERENCES shared_vaults(id) ON DELETE CASCADE,
+      FOREIGN KEY (created_by) REFERENCES users(id)
+    )
+  `);
+
+  // 审计日志表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS audit_logs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER,
+      team_id INTEGER,
+      action TEXT NOT NULL,
+      resource_type TEXT,
+      resource_id INTEGER,
+      details TEXT,
+      ip_address TEXT,
+      user_agent TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+      FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE SET NULL
+    )
+  `);
+
+  // 紧急访问表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS emergency_access (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      grantor_id INTEGER NOT NULL,
+      grantee_email TEXT NOT NULL,
+      grantee_id INTEGER,
+      status TEXT DEFAULT 'pending',
+      wait_days INTEGER DEFAULT 7,
+      access_type TEXT DEFAULT 'view',
+      requested_at DATETIME,
+      approved_at DATETIME,
+      recovery_key TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (grantor_id) REFERENCES users(id) ON DELETE CASCADE,
+      FOREIGN KEY (grantee_id) REFERENCES users(id) ON DELETE SET NULL
+    )
+  `);
+
+  // 暗网监控表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS breach_monitors (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      monitor_type TEXT NOT NULL,
+      monitor_value TEXT NOT NULL,
+      last_checked DATETIME,
+      breach_count INTEGER DEFAULT 0,
+      is_active INTEGER DEFAULT 1,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  // 泄露警报表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS breach_alerts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      monitor_id INTEGER NOT NULL,
+      breach_name TEXT NOT NULL,
+      breach_date TEXT,
+      breach_data TEXT,
+      is_read INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      FOREIGN KEY (monitor_id) REFERENCES breach_monitors(id) ON DELETE CASCADE
+    )
+  `);
+
+  // SSH/API 密钥表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS secure_keys (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      key_type TEXT NOT NULL,
+      name TEXT NOT NULL,
+      encrypted_data TEXT NOT NULL,
+      iv TEXT NOT NULL,
+      public_key TEXT,
+      fingerprint TEXT,
+      expires_at DATETIME,
+      last_used DATETIME,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  // 虚拟身份表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS virtual_identities (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      alias_email TEXT UNIQUE,
+      forward_to TEXT,
+      name TEXT,
+      phone TEXT,
+      address TEXT,
+      notes TEXT,
+      is_active INTEGER DEFAULT 1,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  // 密码历史表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS password_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      item_id INTEGER NOT NULL,
+      encrypted_data TEXT NOT NULL,
+      iv TEXT NOT NULL,
+      changed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (item_id) REFERENCES vault_items(id) ON DELETE CASCADE
+    )
+  `);
+
+  // FIDO2/硬件密钥表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS hardware_keys (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      credential_id TEXT UNIQUE NOT NULL,
+      public_key TEXT NOT NULL,
+      name TEXT,
+      counter INTEGER DEFAULT 0,
+      transports TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      last_used DATETIME,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  // 安全设置表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS security_settings (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER UNIQUE NOT NULL,
+      duress_password_hash TEXT,
+      self_destruct_attempts INTEGER DEFAULT 10,
+      geo_lock_enabled INTEGER DEFAULT 0,
+      allowed_countries TEXT,
+      require_hardware_key INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  // 创建高级功能索引
+  db.exec(`
+    CREATE INDEX IF NOT EXISTS idx_team_members_team ON team_members(team_id);
+    CREATE INDEX IF NOT EXISTS idx_team_members_user ON team_members(user_id);
+    CREATE INDEX IF NOT EXISTS idx_shared_vault_items_vault ON shared_vault_items(vault_id);
+    CREATE INDEX IF NOT EXISTS idx_audit_logs_user ON audit_logs(user_id);
+    CREATE INDEX IF NOT EXISTS idx_audit_logs_team ON audit_logs(team_id);
+    CREATE INDEX IF NOT EXISTS idx_audit_logs_created ON audit_logs(created_at);
+    CREATE INDEX IF NOT EXISTS idx_breach_monitors_user ON breach_monitors(user_id);
+    CREATE INDEX IF NOT EXISTS idx_breach_alerts_user ON breach_alerts(user_id);
+    CREATE INDEX IF NOT EXISTS idx_secure_keys_user ON secure_keys(user_id);
+    CREATE INDEX IF NOT EXISTS idx_virtual_identities_user ON virtual_identities(user_id);
+    CREATE INDEX IF NOT EXISTS idx_password_history_item ON password_history(item_id);
+    CREATE INDEX IF NOT EXISTS idx_hardware_keys_user ON hardware_keys(user_id);
+  `);
+
+  console.log('✅ Database initialized with advanced features');
 }
 
 module.exports = { getDb, initDatabase };

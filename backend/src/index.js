@@ -32,8 +32,30 @@ const PORT = process.env.PORT || 3001;
 
 // 安全中间件
 app.use(helmet());
+
+// CORS 配置
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:5173',
+  'http://localhost:3001',
+  'capacitor://localhost',
+  'ionic://localhost',
+  'http://localhost'
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: function(origin, callback) {
+    // 允许无 origin 的请求（如移动应用、Postman）
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    // 生产环境允许任何 https 来源（用于测试）
+    if (process.env.NODE_ENV === 'production' && origin.startsWith('https://')) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 

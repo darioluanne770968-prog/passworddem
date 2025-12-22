@@ -146,7 +146,7 @@ export default function AuditLogs() {
     <div className="min-h-screen bg-gray-50">
       {/* 头部 */}
       <div className="bg-white shadow">
-        <div className="max-w-6xl mx-auto px-4 py-4">
+        <div className="max-w-6xl mx-auto px-4 pb-4" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 1rem)' }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button onClick={() => navigate(-1)} className="text-gray-600 hover:text-gray-900">

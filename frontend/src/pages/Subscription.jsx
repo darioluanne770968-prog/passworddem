@@ -120,7 +120,7 @@ export default function Subscription() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
       {/* 顶部导航 */}
-      <header className="px-4 py-4 flex items-center justify-between">
+      <header className="px-4 pb-4 flex items-center justify-between" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 1rem)' }}>
         <button
           onClick={() => navigate(-1)}
           className="p-2 hover:bg-white/10 rounded-lg transition-colors"

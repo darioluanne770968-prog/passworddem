@@ -166,7 +166,7 @@ export default function BiometricSettings() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* 头部 */}
-      <div className="bg-primary-500 text-white px-4 py-4 flex items-center gap-4 safe-top">
+      <div className="bg-primary-500 text-white px-4 pb-4 flex items-center gap-4" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 1rem)' }}>
         <button onClick={() => navigate(-1)} className="text-2xl">
           ←
         </button>

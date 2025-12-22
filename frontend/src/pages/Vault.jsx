@@ -93,7 +93,7 @@ export default function Vault() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* 头部 */}
-      <div className="bg-primary-500 text-white px-4 pt-4 pb-6 safe-top">
+      <div className="bg-primary-500 text-white px-4 pb-6" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 1rem)' }}>
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-xl font-bold">密码保险箱</h1>
           <div className="flex items-center gap-2">

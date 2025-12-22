@@ -2,7 +2,19 @@
  * API 请求模块
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+import { Capacitor } from '@capacitor/core';
+
+// iOS 模拟器使用 Mac 的 IP，真机需要用实际 IP
+function getApiBase() {
+  if (Capacitor.isNativePlatform()) {
+    // 开发环境：Mac 的本地服务器
+    // 模拟器可以用 localhost，真机需要用 Mac 的 IP 地址
+    return 'http://localhost:3001/api';
+  }
+  return import.meta.env.VITE_API_URL || '/api';
+}
+
+const API_BASE = getApiBase();
 
 class ApiError extends Error {
   constructor(message, status) {

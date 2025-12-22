@@ -47,7 +47,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-500 to-primary-700 flex flex-col">
       {/* 头部 */}
-      <div className="pt-16 pb-8 px-6 text-center text-white">
+      <div className="pb-8 px-6 text-center text-white" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 4rem)' }}>
         <div className="text-5xl mb-4">🔐</div>
         <h1 className="text-3xl font-bold">
           {requires2FA ? '双因素认证' : '欢迎回来'}

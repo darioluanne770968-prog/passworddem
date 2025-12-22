@@ -43,7 +43,7 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-500 to-primary-700 flex flex-col">
       {/* 头部 */}
-      <div className="pt-12 pb-6 px-6 text-center text-white">
+      <div className="pb-6 px-6 text-center text-white" style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 3rem)' }}>
         <div className="text-5xl mb-4">🔐</div>
         <h1 className="text-3xl font-bold">创建账户</h1>
         <p className="text-white/80 mt-2">设置您的主密码</p>

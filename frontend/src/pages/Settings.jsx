@@ -399,6 +399,114 @@ export default function Settings() {
             </div>
             <span className="text-gray-400">›</span>
           </button>
+
+          {/* 高级安全设置 */}
+          <button
+            onClick={() => navigate('/security-advanced')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🚨</span>
+              <div>
+                <p className="text-gray-800 font-medium">高级安全设置</p>
+                <p className="text-sm text-gray-500">胁迫密码、自毁机制、硬件密钥</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+        </div>
+
+        {/* 高级功能 */}
+        <div className="bg-white rounded-xl divide-y">
+          <div className="p-4">
+            <h3 className="font-medium text-gray-800 flex items-center gap-2">
+              ⚡ 高级功能
+            </h3>
+          </div>
+
+          <button
+            onClick={() => navigate('/breach-monitor')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🔍</span>
+              <div>
+                <p className="text-gray-800">暗网监控</p>
+                <p className="text-sm text-gray-500">检测您的账号是否在数据泄露中</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/teams')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">👥</span>
+              <div>
+                <p className="text-gray-800">团队管理</p>
+                <p className="text-sm text-gray-500">与团队成员共享密码</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/emergency-access')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🆘</span>
+              <div>
+                <p className="text-gray-800">紧急访问</p>
+                <p className="text-sm text-gray-500">设置紧急联系人和数字遗产</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/keys')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🔑</span>
+              <div>
+                <p className="text-gray-800">密钥管理</p>
+                <p className="text-sm text-gray-500">SSH 密钥、API Token、GPG 密钥</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/identity')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🎭</span>
+              <div>
+                <p className="text-gray-800">隐私工具</p>
+                <p className="text-sm text-gray-500">虚拟身份生成、邮箱别名</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/audit-logs')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">📋</span>
+              <div>
+                <p className="text-gray-800">审计日志</p>
+                <p className="text-sm text-gray-500">查看所有操作记录</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
         </div>
 
         {/* 关于 */}

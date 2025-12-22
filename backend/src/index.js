@@ -16,6 +16,14 @@ const twofaRoutes = require('./routes/twofa');
 const webauthnRoutes = require('./routes/webauthn');
 const shareRoutes = require('./routes/share');
 const attachmentsRoutes = require('./routes/attachments');
+// 高级功能路由
+const breachRoutes = require('./routes/breach');
+const teamsRoutes = require('./routes/teams');
+const emergencyRoutes = require('./routes/emergency');
+const securityAdvancedRoutes = require('./routes/security-advanced');
+const auditRoutes = require('./routes/audit');
+const keysRoutes = require('./routes/keys');
+const identityRoutes = require('./routes/identity');
 const { initDatabase } = require('./models/database');
 
 const app = express();
@@ -51,6 +59,14 @@ app.use('/api/2fa', twofaRoutes);
 app.use('/api/webauthn', webauthnRoutes);
 app.use('/api/share', shareRoutes);
 app.use('/api/attachments', attachmentsRoutes);
+// 高级功能路由
+app.use('/api/breach', breachRoutes);
+app.use('/api/teams', teamsRoutes);
+app.use('/api/emergency', emergencyRoutes);
+app.use('/api/security-advanced', securityAdvancedRoutes);
+app.use('/api/audit', auditRoutes);
+app.use('/api/keys', keysRoutes);
+app.use('/api/identity', identityRoutes);
 
 // 健康检查
 app.get('/api/health', (req, res) => {

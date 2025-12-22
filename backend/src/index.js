@@ -97,6 +97,33 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// 临时管理端点 - 查看数据库数据（生产环境应删除）
+app.get('/api/admin/data', (req, res) => {
+  const { getDb } = require('./models/database');
+  const db = getDb();
+
+  try {
+    const users = db.prepare('SELECT id, email, created_at, totp_enabled FROM users').all();
+    const vaultItems = db.prepare(`
+      SELECT vi.id, vi.user_id, u.email, vi.category, vi.is_favorite, vi.created_at,
+             LENGTH(vi.encrypted_data) as data_length
+      FROM vault_items vi
+      JOIN users u ON vi.user_id = u.id
+    `).all();
+
+    res.json({
+      users: users,
+      vault_items_count: vaultItems.length,
+      vault_items: vaultItems.map(item => ({
+        ...item,
+        note: '密码已加密存储，无法查看明文'
+      }))
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // 错误处理
 app.use((err, req, res, next) => {
   console.error('Error:', err);

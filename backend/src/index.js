@@ -24,6 +24,7 @@ const securityAdvancedRoutes = require('./routes/security-advanced');
 const auditRoutes = require('./routes/audit');
 const keysRoutes = require('./routes/keys');
 const identityRoutes = require('./routes/identity');
+const subscriptionRoutes = require('./routes/subscription');
 const { initDatabase } = require('./models/database');
 
 const app = express();
@@ -67,6 +68,7 @@ app.use('/api/security-advanced', securityAdvancedRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/keys', keysRoutes);
 app.use('/api/identity', identityRoutes);
+app.use('/api/subscription', subscriptionRoutes);
 
 // 健康检查
 app.get('/api/health', (req, res) => {

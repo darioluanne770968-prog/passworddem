@@ -382,6 +382,25 @@ function initDatabase() {
     )
   `);
 
+  // 订阅表
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS subscriptions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      product_id TEXT NOT NULL,
+      transaction_id TEXT UNIQUE NOT NULL,
+      original_transaction_id TEXT NOT NULL,
+      receipt_data TEXT,
+      expires_at DATETIME NOT NULL,
+      status TEXT DEFAULT 'active',
+      auto_renew INTEGER DEFAULT 1,
+      platform TEXT DEFAULT 'ios',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
   // 创建高级功能索引
   db.exec(`
     CREATE INDEX IF NOT EXISTS idx_team_members_team ON team_members(team_id);
@@ -396,6 +415,8 @@ function initDatabase() {
     CREATE INDEX IF NOT EXISTS idx_virtual_identities_user ON virtual_identities(user_id);
     CREATE INDEX IF NOT EXISTS idx_password_history_item ON password_history(item_id);
     CREATE INDEX IF NOT EXISTS idx_hardware_keys_user ON hardware_keys(user_id);
+    CREATE INDEX IF NOT EXISTS idx_subscriptions_user ON subscriptions(user_id);
+    CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions(status);
   `);
 
   console.log('✅ Database initialized with advanced features');

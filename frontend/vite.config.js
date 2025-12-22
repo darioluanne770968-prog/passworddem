@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  // Capacitor 需要相对路径
+  base: '',
   plugins: [
     react(),
     VitePWA({

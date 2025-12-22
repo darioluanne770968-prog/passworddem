@@ -23,6 +23,7 @@ import AuditLogs from './pages/AuditLogs';
 import KeysManagement from './pages/KeysManagement';
 import SecurityAdvanced from './pages/SecurityAdvanced';
 import IdentityGenerator from './pages/IdentityGenerator';
+import Subscription from './pages/Subscription';
 
 // 需要登录的路由保护
 function PrivateRoute({ children }) {
@@ -218,6 +219,14 @@ export default function App() {
           element={
             <PrivateRoute>
               <IdentityGenerator />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/subscription"
+          element={
+            <PrivateRoute>
+              <Subscription />
             </PrivateRoute>
           }
         />

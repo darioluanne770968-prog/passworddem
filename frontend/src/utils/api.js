@@ -4,14 +4,22 @@
 
 import { Capacitor } from '@capacitor/core';
 
-// iOS 模拟器使用 Mac 的 IP，真机需要用实际 IP
+// 生产环境 API 地址
+const PRODUCTION_API = 'https://passworddem.onrender.com/api';
+
 function getApiBase() {
-  if (Capacitor.isNativePlatform()) {
-    // 开发环境：Mac 的本地服务器
-    // 模拟器可以用 localhost，真机需要用 Mac 的 IP 地址
-    return 'http://localhost:3001/api';
+  // 如果设置了环境变量，优先使用
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
   }
-  return import.meta.env.VITE_API_URL || '/api';
+
+  // iOS/Android 原生应用使用生产 API
+  if (Capacitor.isNativePlatform()) {
+    return PRODUCTION_API;
+  }
+
+  // 本地开发使用代理
+  return '/api';
 }
 
 const API_BASE = getApiBase();

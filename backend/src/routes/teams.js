@@ -5,7 +5,7 @@
 const express = require('express');
 const router = express.Router();
 const { getDb } = require('../models/database');
-const auth = require('../middleware/auth');
+const { authMiddleware: auth } = require('../middleware/auth');
 const crypto = require('crypto');
 
 // ============ 团队管理 ============

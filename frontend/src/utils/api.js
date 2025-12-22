@@ -246,3 +246,17 @@ export const tags = {
 };
 
 export { ApiError };
+
+// Default export for backward compatibility
+const api = {
+  auth,
+  twoFactor,
+  vault,
+  webauthn,
+  share,
+  attachments,
+  tags,
+  request
+};
+
+export default api;

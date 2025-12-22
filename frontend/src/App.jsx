@@ -15,6 +15,14 @@ import TwoFactorSettings from './pages/TwoFactorSettings';
 import BiometricSettings from './pages/BiometricSettings';
 import SharedItem from './pages/SharedItem';
 import ShareHistory from './pages/ShareHistory';
+// Advanced Features
+import BreachMonitor from './pages/BreachMonitor';
+import Teams from './pages/Teams';
+import EmergencyAccess from './pages/EmergencyAccess';
+import AuditLogs from './pages/AuditLogs';
+import KeysManagement from './pages/KeysManagement';
+import SecurityAdvanced from './pages/SecurityAdvanced';
+import IdentityGenerator from './pages/IdentityGenerator';
 
 // 需要登录的路由保护
 function PrivateRoute({ children }) {
@@ -152,6 +160,64 @@ export default function App() {
           element={
             <PrivateRoute>
               <ShareHistory />
+            </PrivateRoute>
+          }
+        />
+
+        {/* 高级功能路由 */}
+        <Route
+          path="/breach-monitor"
+          element={
+            <PrivateRoute>
+              <BreachMonitor />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/teams"
+          element={
+            <PrivateRoute>
+              <Teams />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/emergency-access"
+          element={
+            <PrivateRoute>
+              <EmergencyAccess />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/audit-logs"
+          element={
+            <PrivateRoute>
+              <AuditLogs />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/keys"
+          element={
+            <PrivateRoute>
+              <KeysManagement />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/security-advanced"
+          element={
+            <PrivateRoute>
+              <SecurityAdvanced />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/identity"
+          element={
+            <PrivateRoute>
+              <IdentityGenerator />
             </PrivateRoute>
           }
         />

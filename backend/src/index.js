@@ -24,6 +24,15 @@ const securityAdvancedRoutes = require('./routes/security-advanced');
 const auditRoutes = require('./routes/audit');
 const keysRoutes = require('./routes/keys');
 const identityRoutes = require('./routes/identity');
+// 新增高级功能路由
+const totpRoutes = require('./routes/totp');
+const notesRoutes = require('./routes/notes');
+const cardsRoutes = require('./routes/cards');
+const travelRoutes = require('./routes/travel');
+const sessionsRoutes = require('./routes/sessions');
+const recoveryRoutes = require('./routes/recovery');
+const policiesRoutes = require('./routes/policies');
+const qrshareRoutes = require('./routes/qrshare');
 const { initDatabase } = require('./models/database');
 
 const app = express();
@@ -67,6 +76,15 @@ app.use('/api/security-advanced', securityAdvancedRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/keys', keysRoutes);
 app.use('/api/identity', identityRoutes);
+// 新增高级功能路由
+app.use('/api/totp', totpRoutes);
+app.use('/api/notes', notesRoutes);
+app.use('/api/cards', cardsRoutes);
+app.use('/api/travel', travelRoutes);
+app.use('/api/sessions', sessionsRoutes);
+app.use('/api/recovery', recoveryRoutes);
+app.use('/api/policies', policiesRoutes);
+app.use('/api/qrshare', qrshareRoutes);
 
 // 健康检查
 app.get('/api/health', (req, res) => {

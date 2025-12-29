@@ -509,6 +509,113 @@ export default function Settings() {
           </button>
         </div>
 
+        {/* 更多工具 */}
+        <div className="bg-white rounded-xl divide-y">
+          <div className="p-4">
+            <h3 className="font-medium text-gray-800 flex items-center gap-2">
+              🛠️ 更多工具
+            </h3>
+          </div>
+
+          <button
+            onClick={() => navigate('/authenticator')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🔐</span>
+              <div>
+                <p className="text-gray-800">身份验证器</p>
+                <p className="text-sm text-gray-500">管理 TOTP 两步验证码</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/notes')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">📝</span>
+              <div>
+                <p className="text-gray-800">安全笔记</p>
+                <p className="text-sm text-gray-500">加密存储私密笔记</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/cards')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">💳</span>
+              <div>
+                <p className="text-gray-800">银行卡管理</p>
+                <p className="text-sm text-gray-500">安全存储银行卡信息</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/travel-mode')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">✈️</span>
+              <div>
+                <p className="text-gray-800">旅行模式</p>
+                <p className="text-sm text-gray-500">过境时隐藏敏感数据</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/sessions')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">📱</span>
+              <div>
+                <p className="text-gray-800">会话管理</p>
+                <p className="text-sm text-gray-500">查看和撤销活动会话</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/recovery-codes')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🔑</span>
+              <div>
+                <p className="text-gray-800">恢复码管理</p>
+                <p className="text-sm text-gray-500">备份恢复码和第三方恢复码</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/password-policies')}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">📜</span>
+              <div>
+                <p className="text-gray-800">密码策略</p>
+                <p className="text-sm text-gray-500">为不同网站设置密码规则</p>
+              </div>
+            </div>
+            <span className="text-gray-400">›</span>
+          </button>
+        </div>
+
         {/* 关于 */}
         <div className="bg-white rounded-xl divide-y">
           <div className="p-4">

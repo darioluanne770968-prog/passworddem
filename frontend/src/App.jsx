@@ -23,6 +23,14 @@ import AuditLogs from './pages/AuditLogs';
 import KeysManagement from './pages/KeysManagement';
 import SecurityAdvanced from './pages/SecurityAdvanced';
 import IdentityGenerator from './pages/IdentityGenerator';
+// New Advanced Features
+import Authenticator from './pages/Authenticator';
+import SecureNotes from './pages/SecureNotes';
+import BankCards from './pages/BankCards';
+import TravelMode from './pages/TravelMode';
+import Sessions from './pages/Sessions';
+import RecoveryCodes from './pages/RecoveryCodes';
+import PasswordPolicies from './pages/PasswordPolicies';
 
 // 需要登录的路由保护
 function PrivateRoute({ children }) {
@@ -218,6 +226,64 @@ export default function App() {
           element={
             <PrivateRoute>
               <IdentityGenerator />
+            </PrivateRoute>
+          }
+        />
+
+        {/* 新增高级功能路由 */}
+        <Route
+          path="/authenticator"
+          element={
+            <PrivateRoute>
+              <Authenticator />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/notes"
+          element={
+            <PrivateRoute>
+              <SecureNotes />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cards"
+          element={
+            <PrivateRoute>
+              <BankCards />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/travel-mode"
+          element={
+            <PrivateRoute>
+              <TravelMode />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/sessions"
+          element={
+            <PrivateRoute>
+              <Sessions />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/recovery-codes"
+          element={
+            <PrivateRoute>
+              <RecoveryCodes />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/password-policies"
+          element={
+            <PrivateRoute>
+              <PasswordPolicies />
             </PrivateRoute>
           }
         />
